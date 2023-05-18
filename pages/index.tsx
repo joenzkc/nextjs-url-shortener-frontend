@@ -12,7 +12,6 @@ export default function Home() {
       console.log("URL is invalid");
       return;
     }
-    console.log("here");
     setIsValid(true);
     const backend = process.env.NEXT_PUBLIC_BACKEND_URL + "url/random";
     const request = {
@@ -48,7 +47,7 @@ export default function Home() {
           URL Shortener
         </h1>
       </div>
-      <div className="bg-red-400 ml-auto mr-auto">
+      <div className="bg-blue-200 ml-auto mr-auto">
         <p className="text-center font-mono text-lg px-5 pb-5">
           Paste the URL to be shortened here:
         </p>
