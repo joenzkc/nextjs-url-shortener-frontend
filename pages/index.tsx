@@ -1,20 +1,26 @@
+import axios from "axios";
 import React from "react";
-
 export default function Home() {
   const [shortenedUrl, setShortenedUrl] = React.useState("");
   const [url, setUrl] = React.useState("");
   const [isValid, setIsValid] = React.useState(true);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!isValidUrl(url)) {
       setIsValid(false);
       console.log("URL is invalid");
       return;
     }
+    console.log("here");
     setIsValid(true);
-    const generatedUrl = "https://temp.url/short";
-    setShortenedUrl(generatedUrl);
+    const backend = process.env.NEXT_PUBLIC_BACKEND_URL + "url/random";
+    const request = {
+      url,
+    };
+    const response = await axios.post(backend, request);
+    const generatedUrl = response.data.shortened_url;
+    setShortenedUrl(`${process.env.NEXT_PUBLIC_API_URL}${generatedUrl}`);
   };
   const validInputForm: string =
     "border-2 border-slate-700 rounded-l-md ml-auto mr-auto p-3 w-5/6";
@@ -54,7 +60,6 @@ export default function Home() {
             placeholder="Enter link here"
             onChange={(e) => {
               setUrl(e.target.value);
-              console.log(e.target.value);
             }}
           ></input>
           <input
@@ -93,6 +98,7 @@ export default function Home() {
             type="text"
             disabled
             value={shortenedUrl}
+            readOnly
           />
           <input
             className="border-2 hover:border-gray-500
