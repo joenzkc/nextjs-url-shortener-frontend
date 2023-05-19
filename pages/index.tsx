@@ -14,7 +14,6 @@ export default function Home() {
     }
     setIsValid(true);
     const backend = process.env.NEXT_PUBLIC_BACKEND_URL + "url/random";
-    console.log(backend);
     const request = {
       url,
     };
@@ -37,8 +36,17 @@ export default function Home() {
   }
 
   function copyUrl() {
-    navigator.clipboard.writeText(shortenedUrl);
-    console.log(`Copied the text ${shortenedUrl}`);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(shortenedUrl);
+      console.log(`Copied the text ${shortenedUrl}`);
+      return;
+    }
+    const textarea = document.createElement("textarea");
+    textarea.textContent = shortenedUrl;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
   }
 
   return (
