@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { Url } from "@/types/url.type";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -9,6 +9,7 @@ import Loading from "@/components/loading";
 
 interface IParams extends ParsedUrlQuery {
   link: string;
+  url: string;
 }
 export const getStaticPaths: GetStaticPaths = async () => {
   const backend: string = process.env.NEXT_PUBLIC_BACKEND_URL + "url/all" || "";
@@ -27,8 +28,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { links } = ctx.params as IParams;
-  // console.log(ctx.params);
-  // console.log(links);
   const req = {
     shortened_url: links,
   };
@@ -40,15 +39,21 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   // console.log(fullurl);
   return {
     revalidate: 1,
-    redirect: { destination: fullurl.url, permanent: false },
+    props: { fullurl },
   };
-  // return {
-  //   props: { fullurl },
-  // };
 };
 
-const Links = ({}) => {
+const Links = ({ fullurl }: { fullurl: IParams }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    if (router.isFallback) return;
+    const destination = fullurl.url;
+    if (destination) {
+      window.location.href = destination;
+    }
+  }, [router.isFallback, fullurl]);
+
   if (router.isFallback) {
     return <Loading />;
   }

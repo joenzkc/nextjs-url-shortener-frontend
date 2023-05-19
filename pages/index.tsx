@@ -14,6 +14,7 @@ export default function Home() {
     }
     setIsValid(true);
     const backend = process.env.NEXT_PUBLIC_BACKEND_URL + "url/random";
+    console.log(backend);
     const request = {
       url,
     };
