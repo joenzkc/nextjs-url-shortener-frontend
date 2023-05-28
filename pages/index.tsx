@@ -27,12 +27,14 @@ export default function Home() {
     "border-2 rounded-l-md mx-auto p-3 w-5/6 text-pink-600 focus: border-pink-500 focus:ring-pink-500 border-pink-600";
 
   function isValidUrl(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch (err) {
-      return false;
-    }
+    // try {
+    //   new URL(url);
+    //   return true;
+    // } catch (err) {
+    //   return false;
+    // }
+    const pattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/.*)?$/i;
+    return pattern.test(url);
   }
 
   function copyUrl() {
