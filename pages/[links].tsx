@@ -12,18 +12,23 @@ interface IParams extends ParsedUrlQuery {
   url: string;
 }
 export const getStaticPaths: GetStaticPaths = async () => {
-  const backend: string = process.env.NEXT_PUBLIC_BACKEND_URL + "url/all" || "";
-  const req = await axios.get(backend);
-  const pages: Url[] = req.data;
-  const paths = pages.map((page) => {
-    return {
-      params: {
-        links: page.shortened_url,
-      },
-    };
-  });
+  try {
+    const backend: string =
+      process.env.NEXT_PUBLIC_BACKEND_URL + "url/all" || "";
+    const req = await axios.get(backend);
+    const pages: Url[] = req.data;
+    const paths = pages.map((page) => {
+      return {
+        params: {
+          links: page.shortened_url,
+        },
+      };
+    });
 
-  return { paths, fallback: true };
+    return { paths, fallback: true };
+  } catch (err) {
+    return { paths: [], fallback: true };
+  }
 };
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
