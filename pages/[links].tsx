@@ -55,7 +55,10 @@ const Links = ({ fullurl }: { fullurl: IParams }) => {
     if (router.isFallback) return;
     const destination = fullurl.url;
     if (destination) {
-      window.location.href = destination;
+      const url = /^(https?:\/\/)/i.test(destination)
+        ? destination
+        : `https://${destination}`;
+      window.location.href = url;
     }
   }, [router.isFallback, fullurl]);
 
