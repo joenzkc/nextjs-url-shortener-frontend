@@ -14,6 +14,7 @@ export default function Home() {
     }
     setIsValid(true);
     const backend = process.env.NEXT_PUBLIC_BACKEND_URL + "url/random";
+    console.log(backend);
     const request = {
       url,
     };
@@ -22,17 +23,11 @@ export default function Home() {
     setShortenedUrl(`${process.env.NEXT_PUBLIC_API_URL}${generatedUrl}`);
   };
   const validInputForm: string =
-    "border-2 border-slate-700 rounded-l-md ml-auto mr-auto p-3 w-5/6";
+    "border-2 border-slate-300 rounded-l-md ml-auto mr-auto p-3 w-5/6 hover:border-slate-500 focus:outline-none";
   const invalidInputForm: string =
-    "border-2 rounded-l-md mx-auto p-3 w-5/6 text-pink-600 focus: border-pink-500 focus:ring-pink-500 border-pink-600";
+    "border-2 rounded-l-md mx-auto p-3 w-5/6 text-pink-600 focus:border-pink-500 border-pink-600 focus:outline-none";
 
   function isValidUrl(url: string): boolean {
-    // try {
-    //   new URL(url);
-    //   return true;
-    // } catch (err) {
-    //   return false;
-    // }
     const pattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/.*)?$/i;
     return pattern.test(url);
   }
@@ -52,19 +47,23 @@ export default function Home() {
   }
 
   return (
-    <div className="container bg-cyan-200 w-4/6 ml-auto mr-auto max-w-2xl">
-      <div className="bg-slate-400 ml-auto mr-auto">
-        <h1 className="text-center font-bold font-mono text-4xl p-10">
+    <div className="mx-auto bg-slate-700 w-full">
+      <div className="mx-auto w-5/6 max-w-2xl pb-3 pt-20">
+        <h1 className="text-center font-bold font-montserrat text-white text-6xl py-10">
           URL Shortener
         </h1>
       </div>
-      <div className="bg-blue-200 ml-auto mr-auto">
-        <p className="text-center font-mono text-lg px-5 pb-5">
+      <div className="mx-auto">
+        <p className="text-center text-lg text-slate-400 pb-2 font-montserrat">
           Paste the URL to be shortened here:
         </p>
       </div>
-      <div className="bg-blue-300 ml-auto mr-auto w-5/6 max-w-xl px-4 pb-4">
-        <form method="post" onSubmit={handleSubmit}>
+      <div className="mx-auto w-5/6 max-w-xl px-4 pb-4">
+        <form
+          method="post"
+          className="flex justify-center"
+          onSubmit={handleSubmit}
+        >
           <input
             className={isValid ? validInputForm : invalidInputForm}
             placeholder="Enter link here"
@@ -72,58 +71,70 @@ export default function Home() {
               setUrl(e.target.value);
             }}
           ></input>
-          <input
-            className="border-2 hover:border-gray-500
-            border-y-slate-700
-            border-x-slate-700 
-            border-r-slate-700 
+          <button
+            className="border-2
             cursor-pointer 
-            bg-blue-500 
-            rounded-r-md 
-            p-3 
+            bg-slate-600
+            text-md
+            rounded-r-md       
             w-1/6 
+            text-white
+            p-3
+            h-full
+            font-montserrat
+            text-center
           hover:text-slate-600"
             type="submit"
-          ></input>
-          {!isValid ? (
-            <p className="text-center font-sans text-xs text-pink-600 mt-1">
-              Invalid url
-            </p>
-          ) : (
-            ""
-          )}
+          >
+            Shorten
+          </button>
         </form>
-        <p className="text-center font-sans text-sm mt-2">
+        {!isValid ? (
+          <p className="text-center font-montserrat text-sm text-pink-600 mt-2">
+            Invalid url
+          </p>
+        ) : (
+          ""
+        )}
+        {/* <p className="text-center font-sans text-sm mt-2">
           URLShortener is a free tool to shorten URLs and generate short links
         </p>
         <p className="text-center font-sans text-sm">
           URLShortener allows to create a shortened link making it easy to share
-        </p>
+        </p> */}
       </div>
       {shortenedUrl != "" ? (
-        <div className="mx-auto bg-teal-300 w-5/6 max-w-xl px-4 pb-4">
-          <p className="text-center">Your shortened URL is:</p>
-          <input
-            className="border-2 border-slate-700 rounded-l-md ml-auto mr-auto p-3 w-5/6 disabled:bg-gray-200"
-            type="text"
-            disabled
-            value={shortenedUrl}
-            readOnly
-          />
-          <input
-            className="border-2 hover:border-gray-500
-            border-y-slate-700
-            border-x-slate-700 
-            border-r-slate-700 
-            cursor-pointer 
-            bg-slate-400 
-            rounded-r-md 
-            p-3 
-            w-1/6   
-          hover:text-slate-600"
-            value="Copy"
-            onClick={copyUrl}
-          ></input>
+        <div className="mx-auto w-5/6 max-w-xl px-4 pb-7">
+          <div className="mx-auto">
+            <p className="text-center pb-2 text-slate-400 font-montserrat">
+              Your shortened URL is:
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <input
+              className="border-2 border-slate-300 rounded-l-md ml-auto mr-auto p-3 w-5/6 hover:border-slate-500 focus:outline-none bg-gray-400"
+              type="text"
+              value={shortenedUrl}
+              readOnly
+            />
+            <button
+              className="border-2
+              cursor-pointer 
+              bg-slate-600
+              text-md
+              rounded-r-md       
+              w-1/6 
+              text-white
+              p-3
+              h-full
+              font-montserrat
+              text-center
+            hover:text-slate-600"
+              onClick={copyUrl}
+            >
+              Copy
+            </button>
+          </div>
         </div>
       ) : (
         ""
