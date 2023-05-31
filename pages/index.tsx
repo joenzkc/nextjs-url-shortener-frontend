@@ -23,9 +23,9 @@ export default function Home() {
     setShortenedUrl(`${process.env.NEXT_PUBLIC_API_URL}${generatedUrl}`);
   };
   const validInputForm: string =
-    "border-2 border-slate-300 rounded-l-md ml-auto mr-auto p-3 w-5/6 hover:border-slate-500 focus:outline-none";
+    "border-2 border-slate-300 rounded-l-md p-3 hover:border-slate-500 flex-auto focus:outline-none ";
   const invalidInputForm: string =
-    "border-2 rounded-l-md mx-auto p-3 w-5/6 text-pink-600 focus:border-pink-500 border-pink-600 focus:outline-none";
+    "border-2 rounded-l-md mx-auto p-3 w-5/6 text-pink-600 flex-auto focus:border-pink-500 border-pink-600 focus:outline-none";
 
   function isValidUrl(url: string): boolean {
     const pattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,})(\/.*)?$/i;
@@ -48,7 +48,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto bg-slate-700 w-full">
-      <div className="mx-auto w-5/6 max-w-2xl pb-3 pt-20">
+      <div className="mx-auto w-6/7 max-w-2xl pb-3 pt-20">
         <h1 className="text-center font-bold font-montserrat text-white text-6xl py-10">
           URL Shortener
         </h1>
@@ -58,10 +58,10 @@ export default function Home() {
           Paste the URL to be shortened here:
         </p>
       </div>
-      <div className="mx-auto w-5/6 max-w-xl px-4 pb-4">
+      <div className="mx-auto max-w-xl px-4 pb-4">
         <form
           method="post"
-          className="flex justify-center"
+          className="flex flex-1 justify-center align-middle"
           onSubmit={handleSubmit}
         >
           <input
@@ -75,15 +75,15 @@ export default function Home() {
             className="border-2
             cursor-pointer 
             bg-slate-600
-            text-md
-            rounded-r-md       
-            w-1/6 
+            text-sm
+            rounded-r-md    
             text-white
             p-3
-            h-full
             font-montserrat
             text-center
-          hover:text-slate-600"
+            w-1/6
+          hover:text-slate-600
+          min-w-fit"
             type="submit"
           >
             Shorten
@@ -104,15 +104,16 @@ export default function Home() {
         </p> */}
       </div>
       {shortenedUrl != "" ? (
-        <div className="mx-auto w-5/6 max-w-xl px-4 pb-7">
+        <div className="mx-auto max-w-xl px-4 pb-7">
           <div className="mx-auto">
             <p className="text-center pb-2 text-slate-400 font-montserrat">
               Your shortened URL is:
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-1 justify-center align-middle">
             <input
-              className="border-2 border-slate-300 rounded-l-md ml-auto mr-auto p-3 w-5/6 hover:border-slate-500 focus:outline-none bg-gray-400"
+              // className="border-2 border-slate-300 rounded-l-md ml-auto mr-auto p-3 w-5/6 hover:border-slate-500 focus:outline-none bg-gray-400"
+              className="border-2 border-slate-300 rounded-l-md p-3 hover:border-slate-500 flex-auto focus:outline-none bg-gray-400"
               type="text"
               value={shortenedUrl}
               readOnly
@@ -120,15 +121,15 @@ export default function Home() {
             <button
               className="border-2
               cursor-pointer 
-              bg-slate-600
-              text-md
-              rounded-r-md       
-              w-1/6 
+              bg-slate-500
+              text-sm
+              rounded-r-md    
               text-white
               p-3
-              h-full
               font-montserrat
               text-center
+              w-1/6
+              min-w-fit
             hover:text-slate-600"
               onClick={copyUrl}
             >
